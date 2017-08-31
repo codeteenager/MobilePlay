@@ -1,7 +1,10 @@
-package com.codeteenager.mobileplay;
+package com.codeteenager.mobileplay.ui.activity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.codeteenager.mobileplay.R;
+import com.codeteenager.mobileplay.ui.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     NavigationView mNavigationView;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.tablayout)
+    TabLayout mTabLayout;
+    @BindView(R.id.viewpager)
+    ViewPager mViewPager;
 
     private View headView;
 
@@ -28,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initDrawerLayout();
+        initTabLayout();
+    }
+
+    private void initTabLayout() {
+        PagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(pagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void initDrawerLayout() {
         headView = mNavigationView.getHeaderView(0);
         headView.setOnClickListener(new View.OnClickListener() {
             @Override
