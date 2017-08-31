@@ -5,6 +5,8 @@ import com.codeteenager.mobileplay.bean.PageBean;
 import com.codeteenager.mobileplay.data.RecommendModel;
 import com.codeteenager.mobileplay.presenter.contract.RecommendContract;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,16 +15,13 @@ import retrofit2.Response;
  * Created by wangrui on 2017/8/31.
  */
 
-public class RecommendPresenter implements RecommendContract.Presenter {
-    private RecommendContract.View mView;
-    private RecommendModel mModel;
+public class RecommendPresenter extends BasePresenter<RecommendModel, RecommendContract.View> {
 
-    public RecommendPresenter(RecommendContract.View view) {
-        this.mView = view;
-        mModel = new RecommendModel();
+    @Inject
+    public RecommendPresenter(RecommendModel model, RecommendContract.View view) {
+        super(model, view);
     }
 
-    @Override
     public void requestDatas() {
         mView.showLoadding();
         mModel.getApps(new Callback<PageBean<AppInfo>>() {

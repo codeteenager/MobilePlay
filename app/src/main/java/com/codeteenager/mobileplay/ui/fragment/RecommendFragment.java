@@ -1,54 +1,56 @@
 package com.codeteenager.mobileplay.ui.fragment;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codeteenager.mobileplay.R;
 import com.codeteenager.mobileplay.bean.AppInfo;
+import com.codeteenager.mobileplay.di.component.AppComponent;
+import com.codeteenager.mobileplay.di.component.DaggerRecommendComponent;
+import com.codeteenager.mobileplay.di.module.RecommendModule;
 import com.codeteenager.mobileplay.presenter.RecommendPresenter;
 import com.codeteenager.mobileplay.presenter.contract.RecommendContract;
 import com.codeteenager.mobileplay.ui.adapter.RecommendAppAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by wangrui on 2017/8/31.
  */
 
-public class RecommendFragment extends Fragment implements RecommendContract.View {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
-    private ProgressDialog mProgressDialog;
-    private RecommendPresenter mPresenter;
+    @Inject
+    ProgressDialog mProgressDialog;
     private RecommendAppAdapter mAdapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recommend, null);
-        ButterKnife.bind(this, view);
-        mProgressDialog = new ProgressDialog(getActivity());
-        mPresenter = new RecommendPresenter(this);
-        initData();
-        return view;
+    public int setLayout() {
+        return R.layout.fragment_recommend;
     }
 
-    private void initData() {
+    @Override
+    public void init() {
         mPresenter.requestDatas();
+    }
+
+    @Override
+    public void setUpActivityComponent(AppComponent appComponent) {
+        DaggerRecommendComponent
+                .builder()
+                .appComponent(appComponent)
+                .recommendModule(new RecommendModule(this))
+                .build()
+                .inject(this);
     }
 
     private void initRecycleView(List<AppInfo> datas) {

@@ -2,8 +2,7 @@ package com.codeteenager.mobileplay.data;
 
 import com.codeteenager.mobileplay.bean.AppInfo;
 import com.codeteenager.mobileplay.bean.PageBean;
-import com.codeteenager.mobileplay.http.ApiService;
-import com.codeteenager.mobileplay.http.HttpManager;
+import com.codeteenager.mobileplay.data.http.ApiService;
 
 import retrofit2.Callback;
 
@@ -12,9 +11,13 @@ import retrofit2.Callback;
  */
 
 public class RecommendModel {
+    private ApiService mApiService;
+
+    public RecommendModel(ApiService apiService) {
+        this.mApiService = apiService;
+    }
+
     public void getApps(Callback<PageBean<AppInfo>> callback) {
-        HttpManager httpManager = new HttpManager();
-        ApiService apiService = httpManager.getRetrofit(httpManager.getOkHttpClient()).create(ApiService.class);
-        apiService.getApps("{'page':0}").enqueue(callback);
+        mApiService.getApps("{'page':0}").enqueue(callback);
     }
 }

@@ -14,12 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.codeteenager.mobileplay.R;
+import com.codeteenager.mobileplay.di.component.AppComponent;
 import com.codeteenager.mobileplay.ui.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.navigation_view)
@@ -32,15 +33,6 @@ public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
     private View headView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        initDrawerLayout();
-        initTabLayout();
-    }
 
     private void initTabLayout() {
         PagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -74,5 +66,21 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         drawerToggle.syncState();
         mDrawerLayout.addDrawerListener(drawerToggle);
+    }
+
+    @Override
+    public int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void init() {
+        initDrawerLayout();
+        initTabLayout();
+    }
+
+    @Override
+    public void setUpActivityComponent(AppComponent appComponent) {
+
     }
 }

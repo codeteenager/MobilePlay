@@ -30,7 +30,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     //butterknife
     compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile 'com.android.support:design:25.3.1'
     //retrofit
@@ -48,5 +48,8 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.4'
     //java注解
     provided 'org.glassfish:javax.annotation:10.0-b28'
+    // icon
+    compile 'com.mikepenz:iconics-core:2.8.1@aar'
+    compile 'com.mikepenz:ionicons-typeface:2.0.1.2@aar'
 
 }

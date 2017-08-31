@@ -1,4 +1,4 @@
-package com.codeteenager.mobileplay.http;
+package com.codeteenager.mobileplay.data.http;
 
 import com.codeteenager.mobileplay.bean.AppInfo;
 import com.codeteenager.mobileplay.bean.PageBean;
