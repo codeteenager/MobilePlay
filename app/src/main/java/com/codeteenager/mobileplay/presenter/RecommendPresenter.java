@@ -7,9 +7,8 @@ import com.codeteenager.mobileplay.presenter.contract.RecommendContract;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wangrui on 2017/8/31.
@@ -23,23 +22,35 @@ public class RecommendPresenter extends BasePresenter<RecommendModel, RecommendC
     }
 
     public void requestDatas() {
-        mView.showLoadding();
-        mModel.getApps(new Callback<PageBean<AppInfo>>() {
-            @Override
-            public void onResponse(Call<PageBean<AppInfo>> call, Response<PageBean<AppInfo>> response) {
-                if (response != null) {
-                    mView.showResult(response.body().getDatas());
-                } else {
-                    mView.showNoData();
-                }
-                mView.hideLoadding();
-            }
+        mModel.getApps()
+                .subscribeOn(Schedulers.io()) //放到线程池
+                .observeOn(AndroidSchedulers.mainThread()) //切换到主线程
+                .subscribe(new rx.Subscriber<PageBean<AppInfo>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        mView.showLoadding();
+                    }
 
-            @Override
-            public void onFailure(Call<PageBean<AppInfo>> call, Throwable t) {
-                mView.hideLoadding();
-                mView.showError(t.getMessage());
-            }
-        });
+                    @Override
+                    public void onCompleted() {
+                        mView.hideLoadding();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.hideLoadding();
+                    }
+
+                    @Override
+                    public void onNext(PageBean<AppInfo> response) {
+                        if (response != null) {
+                            mView.showResult(response.getDatas());
+                        } else {
+                            mView.showNoData();
+                        }
+                    }
+                });
+
     }
 }

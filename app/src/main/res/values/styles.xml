@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+   
     <style name="AppTheme.ToolBar" parent="AppTheme">
         <!-- 箭头 -->
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>

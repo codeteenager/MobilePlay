@@ -4,7 +4,8 @@ import com.codeteenager.mobileplay.bean.AppInfo;
 import com.codeteenager.mobileplay.bean.PageBean;
 import com.codeteenager.mobileplay.data.http.ApiService;
 
-import retrofit2.Callback;
+import rx.Observable;
+
 
 /**
  * Created by wangrui on 2017/8/31.
@@ -17,7 +18,7 @@ public class RecommendModel {
         this.mApiService = apiService;
     }
 
-    public void getApps(Callback<PageBean<AppInfo>> callback) {
-        mApiService.getApps("{'page':0}").enqueue(callback);
+    public Observable<PageBean<AppInfo>> getApps() {
+        return mApiService.getApps("{'page':0}");
     }
 }
