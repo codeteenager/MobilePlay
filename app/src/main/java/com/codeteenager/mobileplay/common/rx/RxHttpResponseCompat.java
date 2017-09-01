@@ -6,7 +6,9 @@ import com.codeteenager.mobileplay.common.exception.ApiException;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wangrui on 2017/9/1.
@@ -21,7 +23,7 @@ public class RxHttpResponseCompat {
                     @Override
                     public Observable<T> call(final BaseBean<T> tBaseBean) {
                         if (tBaseBean.success()) {
-                            Observable.create(new Observable.OnSubscribe<T>() {
+                            return Observable.create(new Observable.OnSubscribe<T>() {
 
                                 @Override
                                 public void call(Subscriber<? super T> subscriber) {
@@ -35,11 +37,11 @@ public class RxHttpResponseCompat {
                                 }
                             });
                         } else {
-                            Observable.error(new ApiException(tBaseBean.getStatus(), tBaseBean.getMessage()));
+                            return Observable.error(new ApiException(tBaseBean.getStatus(), tBaseBean.getMessage()));
                         }
-                        return null;
                     }
-                });
+                }).subscribeOn(Schedulers.io()) //放到线程池
+                        .observeOn(AndroidSchedulers.mainThread());
             }
         };
     }
