@@ -8,6 +8,8 @@ import com.codeteenager.mobileplay.presenter.contract.RecommendContract;
 
 import javax.inject.Inject;
 
+import rx.Subscriber;
+
 /**
  * Created by wangrui on 2017/8/31.
  */
@@ -22,7 +24,7 @@ public class RecommendPresenter extends BasePresenter<RecommendModel, RecommendC
     public void requestDatas() {
         mModel.getApps()
                 .compose(RxHttpResponseCompat.<PageBean<AppInfo>>compatResult())
-                .subscribe(new rx.Subscriber<PageBean<AppInfo>>() {
+                .subscribe(new Subscriber<PageBean<AppInfo>>() {
                     @Override
                     public void onStart() {
                         super.onStart();

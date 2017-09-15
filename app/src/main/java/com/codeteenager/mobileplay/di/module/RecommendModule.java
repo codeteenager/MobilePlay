@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 
 import com.codeteenager.mobileplay.data.RecommendModel;
 import com.codeteenager.mobileplay.data.http.ApiService;
-import com.codeteenager.mobileplay.presenter.RecommendPresenter;
 import com.codeteenager.mobileplay.presenter.contract.RecommendContract;
 import com.codeteenager.mobileplay.ui.fragment.RecommendFragment;
 
